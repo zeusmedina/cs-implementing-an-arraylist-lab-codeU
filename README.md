@@ -15,29 +15,29 @@ For this lesson we provide a partial implementation of an ArrayList that uses a 
 
 
 *   When you check out the repository for this lab, you should find a file structure similar to what you saw in the previous lab.  The top level directory contains `CONTRIBUTING.md`, `LICENSE.md`, `README.md`, and the directory that contains the code for this lab, `javacs-lab02`.
-  
+
+    In the subdirectory `javacs-lab02/src/com/flatironschool/javacs` you'll find the source files you need for this lab:
 
     *  `MyArrayList.java` contains a partial implementation of the `List` interface using a Java array to store the elements.
 
     *  `MyArrayListTest.java` contains JUnit tests for `MyArrayList`.
 
-    If you compile and run MyArrayList, it...
+    In `javacs-lab02`, you'll find the Ant build file `build.xml`.  If you are in this directory, you should be able to run `ant MyArrayList` to run `MyArrayList.java`, which contains a few simple tests.  Or you can run `ant MyArrayListTest` to run the JUnit test.
     
-    If you compile and run MyArrayListTest, it...  and some of the tests fail.
+    When you run the tests, 7 out of 19 should fail.  If you examine the source code, you'll find four `TODO` comments indicating which methods you will fill in.
 
-    
 *   Before you start filling in the missing methods, let's walk through some of the code.  Here are the instance variables and the constructor. 
 
 ```java
-  public class MyArrayList<T> implements List<T> {
-	   int size;                    // keeps track of the number of elements
-	   private T[] array;           // stores the elements
+public class MyArrayList<E> implements List<E> {
+	int size;                    // keeps track of the number of elements
+	private E[] array;           // stores the elements
 	
-	   public MyArrayList() {
-		    array = (T[]) new Object[10];
-		    size = 0;
-	   }
-  }
+	public MyArrayList() {
+		array = (E[]) new Object[10];
+		size = 0;
+	}
+}
 ```
 
 As the comments indicate, `size` keeps track of how many elements are in `MyArrayList`, and `array` is the array that actually contains the elements.  
@@ -51,17 +51,17 @@ One detail about Java:  You can't instantiate an array of T[], but you can insta
 *   Next we'll look at the method that adds elements to the list, and analyze its run time.  Here's my implementation of `add`:
 
 ```java
-      public boolean add(T e) {
-		      if (size >= array.length) {
-			        // make a bigger array and copy over the elements
-			        T[] bigger = (T[]) new Object[array.length * 2];
-			        System.arraycopy(array, 0, bigger, 0, array.length);
-			        array = bigger;
-		      } 
-		      array[size] = e;
-		      size++;
-		      return true;
-	    }
+	public boolean add(E e) {
+		if (size >= array.length) {
+			// make a bigger array and copy over the elements
+			E[] bigger = (E[]) new Object[array.length * 2];
+			System.arraycopy(array, 0, bigger, 0, array.length);
+			array = bigger;
+		} 
+		array[size] = e;
+		size++;
+		return true;
+	}
 ```
 
 If there are no unused spaces in the array, we have to create a bigger array and copy over the elements.  Then we can store the element in the array and increment `size`.
@@ -74,12 +74,12 @@ It's also not obvious how to analyze the performance of this method.  In the nor
 *   We'll look at `get` next, and then you can fill in `set`.  Actually, `get` is pretty simple:
 
 ```java
-	    public T get(int index) {
-		      if (index < 0 || index >= size) {
-			        throw new IndexOutOfBoundsException();
-		      }
-		      return array[index];
-	    }
+	public T get(int index) {
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		return array[index];
+	}
 ```
 
 If the index is out of bounds, it throws an exception; otherwise it reads and returns an element of the array.  Notice that it checks whether the index is less than `size`, not `array.length`, so it's not possible to access the unused elements of the array.
@@ -87,7 +87,7 @@ If the index is out of bounds, it throws an exception; otherwise it reads and re
 In `MyArrayList.java`, you'll find a stub for `set` that looks like this:
 
 ```java
-  public T set(int index, T element) {
+	public T set(int index, T element) {
 		return null;
 	}
 ```
