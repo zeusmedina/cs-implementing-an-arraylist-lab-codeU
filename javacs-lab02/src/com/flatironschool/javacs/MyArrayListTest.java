@@ -3,10 +3,12 @@
  */
 package com.flatironschool.javacs;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static org.hamcrest.CoreMatchers.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,8 +21,8 @@ import org.junit.Test;
  */
 public class MyArrayListTest {
 
-	private MyArrayList<Integer> mal;
-	private ArrayList<Integer> list = new ArrayList<Integer>();
+	private List<Integer> mal;
+	private List<Integer> list;
 
 
 	/**
@@ -28,6 +30,7 @@ public class MyArrayListTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		list = new ArrayList<Integer>();
 		list.add(1);
 		list.add(2);
 		list.add(3);
@@ -41,7 +44,7 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testMyArrayList() {
-		assertEquals(3, mal.size());
+		assertThat(mal.size(), is(3));
 	}
 
 	/**
@@ -49,7 +52,7 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testAddT() {
-		assertEquals(new Integer(2), mal.get(1));
+		assertThat(mal.get(1), is(new Integer(2)));
 	}
 
 	/**
@@ -59,8 +62,8 @@ public class MyArrayListTest {
 	public void testAddIntT() {
 		mal.add(1, 5);
 		//System.out.println(Arrays.toString(mal.toArray()));
-		assertEquals(new Integer(5), mal.get(1));
-		assertEquals(4, mal.size());
+		assertThat(mal.get(1), is(new Integer(5)));
+		assertThat(mal.size(), is(4));
 		
 		try {
 		    mal.set(-1, 0);
@@ -74,11 +77,11 @@ public class MyArrayListTest {
 		
 		mal.add(0, 6);
 		//System.out.println(Arrays.toString(mal.toArray()));
-		assertEquals(new Integer(6), mal.get(0));
+		assertThat(mal.get(0), is(6));
 
 		mal.add(5, 7);
 		//System.out.println(Arrays.toString(mal.toArray()));
-		assertEquals(new Integer(7), mal.get(5));
+		assertThat(mal.get(5), is(new Integer(7)));
 	}
 
 	/**
@@ -89,8 +92,8 @@ public class MyArrayListTest {
 		mal.addAll(list);
 		mal.addAll(list);
 		mal.addAll(list);
-		assertEquals(12, mal.size());
-		assertEquals(new Integer(3), mal.get(5));
+		assertThat(mal.size(), is(12));
+		assertThat(mal.get(5), is(new Integer(3)));
 	}
 
 	/**
@@ -99,7 +102,7 @@ public class MyArrayListTest {
 	@Test
 	public void testClear() {
 		mal.clear();
-		assertEquals(mal.size(), 0);
+		assertThat(mal.size(), is(0));
 	}
 
 	/**
@@ -107,12 +110,11 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testContains() {
-		assertTrue(mal.contains(1));
-		assertFalse(mal.contains(4));
-		assertFalse(mal.contains(null));
+		assertThat(mal.contains(1), is(true));
+		assertThat(mal.contains(4), is(false));
+		assertThat(mal.contains(null), is(false));
 		mal.add(null);
-		assertTrue(mal.contains(null));
-
+		assertThat(mal.contains(null), is(true));
 	}
 
 	/**
@@ -120,7 +122,7 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testContainsAll() {
-		assertTrue(mal.containsAll(list));
+		assertThat(mal.containsAll(list), is(true));
 	}
 
 	/**
@@ -128,7 +130,7 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testGet() {
-		assertEquals(mal.get(1), new Integer(2));
+		assertThat(mal.get(1), is(new Integer(2)));
 	}
 
 	/**
@@ -136,10 +138,10 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testIndexOf() {
-		assertEquals(mal.indexOf(1), 0);
-		assertEquals(mal.indexOf(2), 1);
-		assertEquals(mal.indexOf(3), 2);
-		assertEquals(mal.indexOf(4), -1);
+		assertThat(mal.indexOf(1), is(0));
+		assertThat(mal.indexOf(2), is(1));
+		assertThat(mal.indexOf(3), is(2));
+		assertThat(mal.indexOf(4), is(-1));
 	}
 
 	/**
@@ -147,7 +149,7 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testIsEmpty() {
-		assertFalse(mal.isEmpty());
+		assertThat(mal.isEmpty(), is(false));
 	}
 
 	/**
@@ -156,10 +158,10 @@ public class MyArrayListTest {
 	@Test
 	public void testIterator() {
 		Iterator<Integer> iter = mal.iterator();
-		assertEquals(iter.next(), new Integer(1));
-		assertEquals(iter.next(), new Integer(2));
-		assertEquals(iter.next(), new Integer(3));
-		assertFalse(iter.hasNext());
+		assertThat(iter.next(), is(new Integer(1)));
+		assertThat(iter.next(), is(new Integer(2)));
+		assertThat(iter.next(), is(new Integer(3)));
+		assertThat(iter.hasNext(), is(false));
 	}
 
 	/**
@@ -168,7 +170,7 @@ public class MyArrayListTest {
 	@Test
 	public void testLastIndexOf() {
 		mal.add(2);
-		assertEquals(3, mal.lastIndexOf(new Integer(2)));
+		assertThat(mal.lastIndexOf(new Integer(2)), is(3));
 	}
 
 	/**
@@ -177,26 +179,26 @@ public class MyArrayListTest {
 	@Test
 	public void testRemoveObject() {
 		boolean flag = mal.remove(new Integer(2));
-		assertTrue(flag);
-		assertEquals(2, mal.size());
-		assertEquals(new Integer(3), mal.get(1));
+		assertThat(flag, is(true));
+		assertThat(mal.size(), is(2));
+		assertThat(mal.get(1), is(new Integer(3)));
 		//System.out.println(Arrays.toString(mal.toArray()));
 
 		flag = mal.remove(new Integer(1));
-		assertTrue(flag);
-		assertEquals(1, mal.size());
-		assertEquals(new Integer(3), mal.get(0));
+		assertThat(flag, is(true));
+		assertThat(mal.size(), is(1));
+		assertThat(mal.get(0), is(new Integer(3)));
 		//System.out.println(Arrays.toString(mal.toArray()));
 		
 		flag = mal.remove(new Integer(5));
-		assertFalse(flag);
-		assertEquals(1, mal.size());
-		assertEquals(new Integer(3), mal.get(0));
+		assertThat(flag, is(false));
+		assertThat(mal.size(), is(1));
+		assertThat(mal.get(0), is(new Integer(3)));
 		//System.out.println(Arrays.toString(mal.toArray()));
 		
 		flag = mal.remove(new Integer(3));
-		assertTrue(flag);
-		assertEquals(0, mal.size());
+		assertThat(flag, is(true));
+		assertThat(mal.size(), is(0));
 		//System.out.println(Arrays.toString(mal.toArray()));
 	}
 
@@ -206,9 +208,9 @@ public class MyArrayListTest {
 	@Test
 	public void testRemoveInt() {
 		Integer val = mal.remove(1);
-		assertEquals(new Integer(2), val);
-		assertEquals(2, mal.size());
-		assertEquals(new Integer(3), mal.get(1));
+		assertThat(val, is(new Integer(2)));
+		assertThat(mal.size(), is(2));
+		assertThat(mal.get(1), is(new Integer(3)));
 	}
 
 	/**
@@ -217,7 +219,7 @@ public class MyArrayListTest {
 	@Test
 	public void testRemoveAll() {
 		mal.removeAll(list);
-		assertEquals(0, mal.size());
+		assertThat(mal.size(), is(0));
 	}
 
 	/**
@@ -226,19 +228,19 @@ public class MyArrayListTest {
 	@Test
 	public void testSet() {
 		Integer val = mal.set(1, 5);
-		assertEquals(new Integer(2), val);
+		assertThat(val, is(new Integer(2)));
 
 		val = mal.set(0, 6);
-		assertEquals(new Integer(1), val);
+		assertThat(val, is(new Integer(1)));
 
 		val = mal.set(2, 7);
-		assertEquals(new Integer(3), val);
+		assertThat(val, is(new Integer(3)));
 
 		// return value should be 2
 		// list should be [6, 5, 7]
-		assertEquals(new Integer(6), mal.get(0));
-		assertEquals(new Integer(5), mal.get(1));
-		assertEquals(new Integer(7), mal.get(2));
+		assertThat(mal.get(0), is(new Integer(6)));
+		assertThat(mal.get(1), is(new Integer(5)));
+		assertThat(mal.get(2), is(new Integer(7)));
 		//System.out.println(Arrays.toString(mal.toArray()));
 
 		try {
@@ -257,7 +259,7 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testSize() {
-		assertEquals(3, mal.size());
+		assertThat(mal.size(), is(3));
 	}
 
 	/**
@@ -267,7 +269,7 @@ public class MyArrayListTest {
 	public void testSubList() {
 		mal.addAll(list);
 		List<Integer> sub = mal.subList(1, 4);
-		assertEquals(new Integer(3), sub.get(1));
+		assertThat(sub.get(1), is(new Integer(3)));
 	}
 
 	/**
@@ -276,7 +278,7 @@ public class MyArrayListTest {
 	@Test
 	public void testToArray() {
 		Object[] array = mal.toArray();
-		assertEquals(1, array[0]);
+		assertThat((Integer)array[0], is(new Integer(1)));
 	}
 
 }
