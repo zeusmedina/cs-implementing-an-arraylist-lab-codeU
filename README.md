@@ -15,53 +15,53 @@ For this lesson we provide a partial implementation of an ArrayList that uses a 
 
 
 *   When you check out the repository for this lab, you should find a file structure similar to what you saw in the previous lab.  The top level directory contains `CONTRIBUTING.md`, `LICENSE.md`, `README.md`, and the directory that contains the code for this lab, `javacs-lab02`.
-  
+
+    In the subdirectory `javacs-lab02/src/com/flatironschool/javacs` you'll find the source files you need for this lab:
 
     *  `MyArrayList.java` contains a partial implementation of the `List` interface using a Java array to store the elements.
 
     *  `MyArrayListTest.java` contains JUnit tests for `MyArrayList`.
 
-    If you compile and run MyArrayList, it...
+    In `javacs-lab02`, you'll find the Ant build file `build.xml`.  If you are in this directory, you should be able to run `ant MyArrayList` to run `MyArrayList.java`, which contains a few simple tests.  Or you can run `ant MyArrayListTest` to run the JUnit test.
     
-    If you compile and run MyArrayListTest, it...  and some of the tests fail.
+    When you run the tests, 7 out of 19 should fail.  If you examine the source code, you'll find four `TODO` comments indicating which methods you will fill in.
 
-    
 *   Before you start filling in the missing methods, let's walk through some of the code.  Here are the instance variables and the constructor. 
 
 ```java
-  public class MyArrayList<T> implements List<T> {
-	   int size;                    // keeps track of the number of elements
-	   private T[] array;           // stores the elements
+public class MyArrayList<E> implements List<E> {
+	int size;                    // keeps track of the number of elements
+	private E[] array;           // stores the elements
 	
-	   public MyArrayList() {
-		    array = (T[]) new Object[10];
-		    size = 0;
-	   }
-  }
+	public MyArrayList() {
+		array = (E[]) new Object[10];
+		size = 0;
+	}
+}
 ```
 
 As the comments indicate, `size` keeps track of how many elements are in `MyArrayList`, and `array` is the array that actually contains the elements.  
 
 The constructor creates an array of 10 elements, which are initially `null`, and sets `size` to 0.  Most of the time, the length of the array is bigger than `size`, so there are unused slots in the array.
     
-One detail about Java:  You can't instantiate an array of T[], but you can instantiate an array of Object and then typecast it.  You can read more about this issue [here](http://www.ibm.com/developerworks/java/library/j-jtp01255/index.html).
+One detail about Java:  You can't instantiate an array of T[], so you have to instantiate an array of Object and then typecast it.  You can [read more about this issue here](http://www.ibm.com/developerworks/java/library/j-jtp01255/index.html).
 
 
     
-*   Next we'll look at the method that adds elements to the list, and analyze its run time.  Here's my implementation of `add`:
+*   Next we'll look at the method that adds elements to the list.  Here's my implementation of `add`:
 
 ```java
-      public boolean add(T e) {
-		      if (size >= array.length) {
-			        // make a bigger array and copy over the elements
-			        T[] bigger = (T[]) new Object[array.length * 2];
-			        System.arraycopy(array, 0, bigger, 0, array.length);
-			        array = bigger;
-		      } 
-		      array[size] = e;
-		      size++;
-		      return true;
-	    }
+	public boolean add(E e) {
+		if (size >= array.length) {
+			// make a bigger array and copy over the elements
+			E[] bigger = (E[]) new Object[array.length * 2];
+			System.arraycopy(array, 0, bigger, 0, array.length);
+			array = bigger;
+		} 
+		array[size] = e;
+		size++;
+		return true;
+	}
 ```
 
 If there are no unused spaces in the array, we have to create a bigger array and copy over the elements.  Then we can store the element in the array and increment `size`.
@@ -74,12 +74,12 @@ It's also not obvious how to analyze the performance of this method.  In the nor
 *   We'll look at `get` next, and then you can fill in `set`.  Actually, `get` is pretty simple:
 
 ```java
-	    public T get(int index) {
-		      if (index < 0 || index >= size) {
-			        throw new IndexOutOfBoundsException();
-		      }
-		      return array[index];
-	    }
+	public T get(int index) {
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		return array[index];
+	}
 ```
 
 If the index is out of bounds, it throws an exception; otherwise it reads and returns an element of the array.  Notice that it checks whether the index is less than `size`, not `array.length`, so it's not possible to access the unused elements of the array.
@@ -87,7 +87,8 @@ If the index is out of bounds, it throws an exception; otherwise it reads and re
 In `MyArrayList.java`, you'll find a stub for `set` that looks like this:
 
 ```java
-  public T set(int index, T element) {
+	public T set(int index, T element) {
+		// TODO: fill in this method.
 		return null;
 	}
 ```
@@ -97,24 +98,21 @@ Read [the documentation of set](https://docs.oracle.com/javase/7/docs/api/java/u
 HINT: Try to avoid repeating the index-checking code.
 
 
-*   Your next mission is to fill in `indexOf`.  As usual, you should [read the documentation](https://docs.oracle.com/javase/7/docs/api/java/util/List.html#indexOf(java.lang.Object)) so you know what it's supposed to do.  
-In particular, notice how it is supposed to handle `null`.
+*   Your next mission is to fill in `indexOf`.  As usual, you should [read the documentation](https://docs.oracle.com/javase/7/docs/api/java/util/List.html#indexOf(java.lang.Object)) so you know what it's supposed to do.  In particular, notice how it is supposed to handle `null`.
 
-To make things a little easier, I've provided a helper method called `equals` that compares an element from the array to a target value and returns `true` if they are equal.  And it handles `null` correctly.
-
+To make things a little easier, I've provided a helper method called `equals` that compares an element from the array to a target value and returns `true` if they are equal (and it handles `null` correctly).
 Notice that this method is private because it is used inside this class but it is not part of the `List` interface.
 
 When you are done, run `MyArrayListTest` again; `testIndexOf` should pass now, as well as the other tests that depend on it.
 
-
 *   Only two more methods to go, and you'll be done with this lab.  The next one is an overloaded version of `add` that takes an index and stores the new value at the given index, shifting the other elements to make room, if necessary.
 
-[Read the documentation](https://docs.oracle.com/javase/7/docs/api/java/util/List.html#add(int,%20E)), write an implementation, and run the tests for confirmation!
+Again, [read the documentation](https://docs.oracle.com/javase/7/docs/api/java/util/List.html#add(int,%20E)), write an implementation, and run the tests for confirmation.
 
 HINT: Avoid repeating the code that makes the array bigger.
 
 
-*  Last one: fill in the body of `remove`.  The documentation is here.  When you finish this one, all tests should pass.
+*  Last one: fill in the body of `remove`.  [The documentation is here](https://docs.oracle.com/javase/7/docs/api/java/util/List.html#remove(int)).  When you finish this one, all tests should pass.
 
 
 *  Once you have your implementation working, compare it to mine, which you can find by checking out the solutions branch of the repo, or [you can read it on GitHub](https://TODO: add_this_later).

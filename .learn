@@ -1,6 +1,7 @@
 tags:
-  - a tag
+  - List
+  - ArrayList
 languages:
-  - a language
+  - Java
 resources: 
   - 0
