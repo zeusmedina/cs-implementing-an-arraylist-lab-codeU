@@ -155,6 +155,8 @@ public class MyArrayListTest {
 	@Test
 	public void testIsEmpty() {
 		assertThat(mal.isEmpty(), equalTo(false));
+		mal.clear();
+		assertThat(mal.isEmpty(), equalTo(true));
 	}
 
 	/**
