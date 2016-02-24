@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import static org.hamcrest.CoreMatchers.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -52,7 +53,11 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testAddT() {
-		assertThat(mal.get(1), is(new Integer(2)));
+		for (int i = 4; i < 20; i++) {
+			mal.add(i);
+		}
+		//System.out.println(Arrays.toString(mal.toArray()));
+		assertThat(mal.get(18), is(new Integer(19)));
 	}
 
 	/**
@@ -110,11 +115,11 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testContains() {
-		assertThat(mal.contains(1), is(true));
-		assertThat(mal.contains(4), is(false));
-		assertThat(mal.contains(null), is(false));
+		assertThat(mal.contains(1), equalTo(true));
+		assertThat(mal.contains(4), equalTo(false));
+		assertThat(mal.contains(null), equalTo(false));
 		mal.add(null);
-		assertThat(mal.contains(null), is(true));
+		assertThat(mal.contains(null), equalTo(true));
 	}
 
 	/**
@@ -122,7 +127,7 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testContainsAll() {
-		assertThat(mal.containsAll(list), is(true));
+		assertThat(mal.containsAll(list), equalTo(true));
 	}
 
 	/**
@@ -149,7 +154,7 @@ public class MyArrayListTest {
 	 */
 	@Test
 	public void testIsEmpty() {
-		assertThat(mal.isEmpty(), is(false));
+		assertThat(mal.isEmpty(), equalTo(false));
 	}
 
 	/**
@@ -161,7 +166,7 @@ public class MyArrayListTest {
 		assertThat(iter.next(), is(new Integer(1)));
 		assertThat(iter.next(), is(new Integer(2)));
 		assertThat(iter.next(), is(new Integer(3)));
-		assertThat(iter.hasNext(), is(false));
+		assertThat(iter.hasNext(), equalTo(false));
 	}
 
 	/**
@@ -179,25 +184,25 @@ public class MyArrayListTest {
 	@Test
 	public void testRemoveObject() {
 		boolean flag = mal.remove(new Integer(2));
-		assertThat(flag, is(true));
+		assertThat(flag, equalTo(true));
 		assertThat(mal.size(), is(2));
 		assertThat(mal.get(1), is(new Integer(3)));
 		//System.out.println(Arrays.toString(mal.toArray()));
 
 		flag = mal.remove(new Integer(1));
-		assertThat(flag, is(true));
+		assertThat(flag, equalTo(true));
 		assertThat(mal.size(), is(1));
 		assertThat(mal.get(0), is(new Integer(3)));
 		//System.out.println(Arrays.toString(mal.toArray()));
 		
 		flag = mal.remove(new Integer(5));
-		assertThat(flag, is(false));
+		assertThat(flag, equalTo(false));
 		assertThat(mal.size(), is(1));
 		assertThat(mal.get(0), is(new Integer(3)));
 		//System.out.println(Arrays.toString(mal.toArray()));
 		
 		flag = mal.remove(new Integer(3));
-		assertThat(flag, is(true));
+		assertThat(flag, equalTo(true));
 		assertThat(mal.size(), is(0));
 		//System.out.println(Arrays.toString(mal.toArray()));
 	}
