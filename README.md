@@ -51,14 +51,14 @@ One detail about Java:  You can't instantiate an array of T[], so you have to in
 *   Next we'll look at the method that adds elements to the list.  Here's my implementation of `add`:
 
 ```java
-	public boolean add(E e) {
+	public boolean add(E element) {
 		if (size >= array.length) {
 			// make a bigger array and copy over the elements
 			E[] bigger = (E[]) new Object[array.length * 2];
 			System.arraycopy(array, 0, bigger, 0, array.length);
 			array = bigger;
 		} 
-		array[size] = e;
+		array[size] = element;
 		size++;
 		return true;
 	}
