@@ -13,20 +13,21 @@ For this lesson we provide a partial implementation of an ArrayList that uses a 
 
 ## Instructions
 
+When you check out the repository for this lab, you should find a file structure similar to what you saw in the previous lab.  The top level directory contains `CONTRIBUTING.md`, `LICENSE.md`, `README.md`, and the directory that contains the code for this lab, `javacs-lab02`.
 
-*   When you check out the repository for this lab, you should find a file structure similar to what you saw in the previous lab.  The top level directory contains `CONTRIBUTING.md`, `LICENSE.md`, `README.md`, and the directory that contains the code for this lab, `javacs-lab02`.
-
-    In the subdirectory `javacs-lab02/src/com/flatironschool/javacs` you'll find the source files you need for this lab:
+In the subdirectory `javacs-lab02/src/com/flatironschool/javacs` you'll find the source files you need for this lab:
 
     *  `MyArrayList.java` contains a partial implementation of the `List` interface using a Java array to store the elements.
 
     *  `MyArrayListTest.java` contains JUnit tests for `MyArrayList`.
 
-    In `javacs-lab02`, you'll find the Ant build file `build.xml`.  If you are in this directory, you should be able to run `ant MyArrayList` to run `MyArrayList.java`, which contains a few simple tests.  Or you can run `ant MyArrayListTest` to run the JUnit test.
+In `javacs-lab02`, you'll find the Ant build file `build.xml`.  If you are in this directory, you should be able to run `ant MyArrayList` to run `MyArrayList.java`, which contains a few simple tests.  Or you can run `ant MyArrayListTest` to run the JUnit test.
     
-    When you run the tests, 7 out of 19 should fail.  If you examine the source code, you'll find four `TODO` comments indicating which methods you will fill in.
+When you run the tests, several of them should fail.  If you examine the source code, you'll find four `TODO` comments indicating which methods you will fill in.
 
-*   Before you start filling in the missing methods, let's walk through some of the code.  Here are the instance variables and the constructor. 
+## `MyArrayList` code
+
+Before you start filling in the missing methods, let's walk through some of the code.  Here are the instance variables and the constructor. 
 
 ```java
 public class MyArrayList<E> implements List<E> {
@@ -46,9 +47,7 @@ The constructor creates an array of 10 elements, which are initially `null`, and
     
 One detail about Java:  You can't instantiate an array of T[], so you have to instantiate an array of Object and then typecast it.  You can [read more about this issue here](http://www.ibm.com/developerworks/java/library/j-jtp01255/index.html).
 
-
-    
-*   Next we'll look at the method that adds elements to the list.  Here's my implementation of `add`:
+Next we'll look at the method that adds elements to the list.  Here's my implementation of `add`:
 
 ```java
 	public boolean add(E element) {
@@ -70,8 +69,7 @@ It might not be obvious why this method returns a boolean, since it seems like i
 
 It's also not obvious how to analyze the performance of this method.  In the normal case, it's constant time, but if we have to resize the array, it's linear.  In the next README I'll explain how we can handle this.
 
-
-*   We'll look at `get` next, and then you can fill in `set`.  Actually, `get` is pretty simple:
+We'll look at `get` next, and then you can fill in `set`.  Actually, `get` is pretty simple:
 
 ```java
 	public T get(int index) {
@@ -84,7 +82,9 @@ It's also not obvious how to analyze the performance of this method.  In the nor
 
 If the index is out of bounds, it throws an exception; otherwise it reads and returns an element of the array.  Notice that it checks whether the index is less than `size`, not `array.length`, so it's not possible to access the unused elements of the array.
 
-In `MyArrayList.java`, you'll find a stub for `set` that looks like this:
+## Instructions
+
+*   In `MyArrayList.java`, you'll find a stub for `set` that looks like this:
 
 ```java
 	public T set(int index, T element) {
@@ -100,7 +100,7 @@ HINT: Try to avoid repeating the index-checking code.
 
 *   Your next mission is to fill in `indexOf`.  As usual, you should [read the documentation](https://docs.oracle.com/javase/7/docs/api/java/util/List.html#indexOf(java.lang.Object)) so you know what it's supposed to do.  In particular, notice how it is supposed to handle `null`.
 
-To make things a little easier, I've provided a helper method called `equals` that compares an element from the array to a target value and returns `true` if they are equal (and it handles `null` correctly).
+    To make things a little easier, I've provided a helper method called `equals` that compares an element from the array to a target value and returns `true` if they are equal (and it handles `null` correctly).
 Notice that this method is private because it is used inside this class but it is not part of the `List` interface.
 
 When you are done, run `MyArrayListTest` again; `testIndexOf` should pass now, as well as the other tests that depend on it.
@@ -115,7 +115,7 @@ HINT: Avoid repeating the code that makes the array bigger.
 *  Last one: fill in the body of `remove`.  [The documentation is here](https://docs.oracle.com/javase/7/docs/api/java/util/List.html#remove(int)).  When you finish this one, all tests should pass.
 
 
-*  Once you have your implementation working, compare it to mine, which you can find by checking out the solutions branch of the repo, or [you can read it on GitHub](https://TODO: add_this_later).
+Once you have your implementation working, compare it to mine, which you can find by checking out the solutions branch of the repo, or [you can read it on GitHub](https://TODO: add_this_later).
 
 
 
