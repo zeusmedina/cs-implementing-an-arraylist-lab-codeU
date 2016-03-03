@@ -148,6 +148,16 @@ public class MyArrayListTest {
 		assertThat(mal.indexOf(3), is(2));
 		assertThat(mal.indexOf(4), is(-1));
 	}
+	
+	/**
+	 * Test method for {@link com.flatironschool.javacs.MyArrayList#indexOf(java.lang.Object)}.
+	 */
+	@Test
+	public void testIndexOfNull() {
+		assertThat(mal.indexOf(null), is(-1));
+		mal.add(null);
+		assertThat(mal.indexOf(null), is(3));		
+	}
 
 	/**
 	 * Test method for {@link com.flatironschool.javacs.MyArrayList#isEmpty()}.

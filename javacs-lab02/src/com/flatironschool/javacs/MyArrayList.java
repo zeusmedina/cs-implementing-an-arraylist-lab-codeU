@@ -11,12 +11,12 @@ import java.util.ListIterator;
 
 /**
  * @author downey
- * @param <E>: Type of the elements in the List.
+ * @param <T>
  *
  */
-public class MyArrayList<E> implements List<E> {
+public class MyArrayList<T> implements List<T> {
 	int size;                    // keeps track of the number of elements
-	private E[] array;           // stores the elements
+	private T[] array;           // stores the elements
 	
 	/**
 	 * 
@@ -25,7 +25,7 @@ public class MyArrayList<E> implements List<E> {
 		// You can't instantiate an array of T[], but you can instantiate an
 		// array of Object and then typecast it.  Details at
 		// http://www.ibm.com/developerworks/java/library/j-jtp01255/index.html
-		array = (E[]) new Object[10];
+		array = (T[]) new Object[10];
 		size = 0;
 	}
 
@@ -34,7 +34,7 @@ public class MyArrayList<E> implements List<E> {
 	 */
 	public static void main(String[] args) {
 		// run a few simple tests
-		MyArrayList<Integer> mal = new MyArrayList<Integer>();
+		MyArrayListSoln<Integer> mal = new MyArrayListSoln<Integer>();
 		mal.add(1);
 		mal.add(2);
 		mal.add(3);
@@ -45,10 +45,10 @@ public class MyArrayList<E> implements List<E> {
 	}
 
 	@Override
-	public boolean add(E element) {
+	public boolean add(T element) {
 		if (size >= array.length) {
 			// make a bigger array and copy over the elements
-			E[] bigger = (E[]) new Object[array.length * 2];
+			T[] bigger = (T[]) new Object[array.length * 2];
 			System.arraycopy(array, 0, bigger, 0, array.length);
 			array = bigger;
 		} 
@@ -58,24 +58,32 @@ public class MyArrayList<E> implements List<E> {
 	}
 
 	@Override
-	public void add(int index, E element) {
+	public void add(int index, T element) {
 		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException();
 		}
-		// TODO: fill in the rest of this method
+		// add the element to get the resizing
+		add(element);
+		
+		// shift the elements
+		for (int i=size-1; i>index; i--) {
+			array[i] = array[i-1];
+		}
+		// put the new one in the right place
+		array[index] = element;
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends E> collection) {
+	public boolean addAll(Collection<? extends T> collection) {
 		boolean flag = true;
-		for (E element: collection) {
+		for (T element: collection) {
 			flag &= add(element);
 		}
 		return flag;
 	}
 
 	@Override
-	public boolean addAll(int index, Collection<? extends E> collection) {
+	public boolean addAll(int index, Collection<? extends T> collection) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -102,7 +110,7 @@ public class MyArrayList<E> implements List<E> {
 	}
 
 	@Override
-	public E get(int index) {
+	public T get(int index) {
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -111,8 +119,12 @@ public class MyArrayList<E> implements List<E> {
 
 	@Override
 	public int indexOf(Object target) {
-		// TODO: fill in this method
-		return 0;
+		for (int i = 0; i<size; i++) {
+			if (equals(target, array[i])) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	/** Checks whether an element of the array is the target.
@@ -136,9 +148,9 @@ public class MyArrayList<E> implements List<E> {
 	}
 
 	@Override
-	public Iterator<E> iterator() {
+	public Iterator<T> iterator() {
 		// make a copy of the array
-		E[] copy = Arrays.copyOf(array, size);
+		T[] copy = Arrays.copyOf(array, size);
 		// make a list and return an iterator
 		return Arrays.asList(copy).iterator();
 	}
@@ -155,17 +167,17 @@ public class MyArrayList<E> implements List<E> {
 	}
 
 	@Override
-	public ListIterator<E> listIterator() {
+	public ListIterator<T> listIterator() {
 		// make a copy of the array
-		E[] copy = Arrays.copyOf(array, size);
+		T[] copy = Arrays.copyOf(array, size);
 		// make a list and return an iterator
 		return Arrays.asList(copy).listIterator();
 	}
 
 	@Override
-	public ListIterator<E> listIterator(int index) {
+	public ListIterator<T> listIterator(int index) {
 		// make a copy of the array
-		E[] copy = Arrays.copyOf(array, size);
+		T[] copy = Arrays.copyOf(array, size);
 		// make a list and return an iterator
 		return Arrays.asList(copy).listIterator(index);
 	}
@@ -181,9 +193,13 @@ public class MyArrayList<E> implements List<E> {
 	}
 
 	@Override
-	public E remove(int index) {
-		// TODO: fill in this method.
-		return null;
+	public T remove(int index) {
+		T element = get(index);
+		for (int i=index; i<size-1; i++) {
+			array[i] = array[i+1];
+		}
+		size--;
+		return element;
 	}
 
 	@Override
@@ -201,9 +217,11 @@ public class MyArrayList<E> implements List<E> {
 	}
 
 	@Override
-	public E set(int index, E element) {
-		// TODO: fill in this method.
-		return null;
+	public T set(int index, T element) {
+		// no need to check index; get will do it for us
+		T old = get(index);
+		array[index] = element;
+		return old;
 	}
 
 	@Override
@@ -212,11 +230,11 @@ public class MyArrayList<E> implements List<E> {
 	}
 
 	@Override
-	public List<E> subList(int fromIndex, int toIndex) {
+	public List<T> subList(int fromIndex, int toIndex) {
 		if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex) {
 			throw new IndexOutOfBoundsException();
 		}
-		E[] copy = Arrays.copyOfRange(array, fromIndex, toIndex);
+		T[] copy = Arrays.copyOfRange(array, fromIndex, toIndex);
 		return Arrays.asList(copy);
 	}
 
