@@ -124,11 +124,12 @@
             <classpath refid="JavaCS.classpath"/>
         </java>
     </target>
-    <target name="test">
+    <target depends="build,MyArrayListTest" name="test"/>
+    <target name="MyArrayListTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
-            <formatter type="plain" usefile="no"/>
+            <formatter type="plain" usefile="false"/>
             <test name="com.flatironschool.javacs.MyArrayListTest" todir="${junit.output.dir}"/>
             <classpath refid="JavaCS.classpath"/>
         </junit>
