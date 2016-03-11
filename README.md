@@ -6,7 +6,7 @@
 1.  Write an implementation of an ArrayList.
 
 
-## Implementing an array-backed list
+## Implementing an Array-backed List
 
 For this lesson we provide a partial implementation of an ArrayList that uses a Java array to store the elements.  We left four of the methods incomplete; your job is to fill them in.  We provide JUnit tests you can use to check your work.
 
@@ -47,7 +47,7 @@ The constructor creates an array of 10 elements, which are initially `null`, and
     
 One detail about Java:  You can't instantiate an array of T[], so you have to instantiate an array of Object and then typecast it.  You can [read more about this issue here](http://www.ibm.com/developerworks/java/library/j-jtp01255/index.html).
 
-Next we'll look at the method that adds elements to the list.  Here's my implementation of `add`:
+Next we'll look at the method that adds elements to the list.  Here's our implementation of `add`:
 
 ```java
 	public boolean add(E element) {
@@ -67,7 +67,7 @@ If there are no unused spaces in the array, we have to create a bigger array and
     
 It might not be obvious why this method returns a boolean, since it seems like it always returns `true`.  As always, [you can find the answer in the documentation](https://docs.oracle.com/javase/7/docs/api/java/util/Collection.html#add(E)).
 
-It's also not obvious how to analyze the performance of this method.  In the normal case, it's constant time, but if we have to resize the array, it's linear.  In the next README I'll explain how we can handle this.
+It's also not obvious how to analyze the performance of this method.  In the normal case, it's constant time, but if we have to resize the array, it's linear.  In the next README we'll explain how we can handle this.
 
 We'll look at `get` next, and then you can fill in `set`.  Actually, `get` is pretty simple:
 
@@ -100,7 +100,7 @@ HINT: Try to avoid repeating the index-checking code.
 
 *   Your next mission is to fill in `indexOf`.  As usual, you should [read the documentation](https://docs.oracle.com/javase/7/docs/api/java/util/List.html#indexOf(java.lang.Object)) so you know what it's supposed to do.  In particular, notice how it is supposed to handle `null`.
 
-    To make things a little easier, I've provided a helper method called `equals` that compares an element from the array to a target value and returns `true` if they are equal (and it handles `null` correctly).
+    To make things a little easier, we've provided a helper method called `equals` that compares an element from the array to a target value and returns `true` if they are equal (and it handles `null` correctly).
 Notice that this method is private because it is used inside this class but it is not part of the `List` interface.
 
 When you are done, run `MyArrayListTest` again; `testIndexOf` should pass now, as well as the other tests that depend on it.
