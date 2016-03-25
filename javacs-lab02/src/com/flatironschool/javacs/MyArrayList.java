@@ -23,7 +23,7 @@ public class MyArrayList<E> implements List<E> {
 	 */
 	public MyArrayList() {
 		// You can't instantiate an array of T[], but you can instantiate an
-		// array of Object and then typecast it.  Details at
+		// array o2f Object and then typecast it.  Details at
 		// http://www.ibm.com/developerworks/java/library/j-jtp01255/index.html
 		array = (E[]) new Object[10];
 		size = 0;
@@ -63,6 +63,16 @@ public class MyArrayList<E> implements List<E> {
 			throw new IndexOutOfBoundsException();
 		}
 		// TODO: fill in the rest of this method
+		
+		// For increased code modularity, call add()
+		// This will automatically resize the list if needed
+		add(element);
+
+		for(int i = size-1; i > index; i--) {
+			array[i] = array[i-1];
+		}
+		array[index] = element;
+		
 	}
 
 	@Override
@@ -112,7 +122,10 @@ public class MyArrayList<E> implements List<E> {
 	@Override
 	public int indexOf(Object target) {
 		// TODO: fill in this method
-		return 0;
+		for(int i = 0; i < size; i++) {
+			if(equals(array[i], target)) return i;
+		}
+		return -1;
 	}
 
 	/** Checks whether an element of the array is the target.
@@ -183,7 +196,20 @@ public class MyArrayList<E> implements List<E> {
 	@Override
 	public E remove(int index) {
 		// TODO: fill in this method.
-		return null;
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		E numRemoved = array[index];
+
+		for(int i = index; i < size - 1; i++) {
+			array[i] = array[i + 1];
+		}
+
+
+		size--;
+		return numRemoved;
+		
 	}
 
 	@Override
@@ -203,7 +229,12 @@ public class MyArrayList<E> implements List<E> {
 	@Override
 	public E set(int index, E element) {
 		// TODO: fill in this method.
-		return null;
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		E result = array[index];
+		array[index] = element;
+		return result;
 	}
 
 	@Override
